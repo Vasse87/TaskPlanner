@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 public class TodosTest {
 
-    SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+    SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям через Приложение");
 
     String[] subtasks = {"Молоко", "Яйца", "Хлеб"};
     Epic epic = new Epic(55, subtasks);
@@ -25,7 +25,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldGetTaskFromTheClasses() {
+    public void shouldGetTaskFromTheClasses() { // находит одну задачу
 
         Task[] expected = {epic}; // Должен находить задачу в классе Epic по подходящему слову
         Task[] actual = todos.search("Молоко");
@@ -38,15 +38,18 @@ public class TodosTest {
         Task[] expected2 = {meeting}; // Должен находить задачу в классе Meeting по подходящему слову
         Task[] actual2 = todos.search("Выкатка");
         Assertions.assertArrayEquals(expected2, actual2);
-
-        Task[] expected3 = {}; // Не должен находить задачу, так как слова нет ни в одном классе
-        Task[] actual3 = todos.search("Сыр");
-        Assertions.assertArrayEquals(expected3, actual3);
     }
 
     @Test
-    public void shouldNotGetTaskFromTheClasses() {
-        Task[] expected = {}; // Не должен находить задачу, так как слова нет ни в одном классе
+    public void shouldGetSeveralTasks() { // Должен находить несколько задач
+        Task[] expected = {simpleTask, meeting};
+        Task[] actual = todos.search("Приложение");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldNotGetTaskFromTheClasses() { // Не должен находить задачу, так как слова нет ни в одном классе
+        Task[] expected = {};
         Task[] actual = todos.search("Сыр");
         Assertions.assertArrayEquals(expected, actual);
     }
